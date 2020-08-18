@@ -9,7 +9,7 @@ class SuggestionsTab extends StatelessWidget {
     return Container(
       height: 40,
       child: ListView(
-        padding: EdgeInsets.only(left: 5),
+        padding: EdgeInsets.all(5),
         scrollDirection: Axis.horizontal,
         children: getTags(),
         shrinkWrap: false,
@@ -40,11 +40,11 @@ class SuggestionsTab extends StatelessWidget {
 
   List<String> tagList = [
     "All",
-    "Today",
-    "Continue watiching",
-    "Unwathced",
+    "Entertainment",
+    "Movies",
+    "TV Shows",
     "Trending",
     "Programming",
-    "Python"
+    "Flutter"
   ];
 }
