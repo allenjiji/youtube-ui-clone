@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       text: "Explore",
     ),
     Tab(
-      icon: new Icon(Icons.subscriptions),
+      icon: new Icon(Icons.image),
       text: "Shorties",
     ),
     Tab(
