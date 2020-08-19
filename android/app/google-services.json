@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "308767275279",
+    "firebase_url": "https://newtube-2376a.firebaseio.com",
+    "project_id": "newtube-2376a",
+    "storage_bucket": "newtube-2376a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308767275279:android:989d1fa5612bab4445a67a",
+        "android_client_info": {
+          "package_name": "com.internapp.youtubeclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308767275279-00s1aet12ap9e6omv306do8ffuav0rgq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkqV0C0R9sr6HDiWxGLAs9NjmhR3mbvrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308767275279-00s1aet12ap9e6omv306do8ffuav0rgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

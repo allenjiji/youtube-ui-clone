@@ -17,6 +17,7 @@ import 'subscription-page.dart';
 
 
 class MyHomePage extends StatefulWidget {
+  static const routeName = '/main-page';
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }

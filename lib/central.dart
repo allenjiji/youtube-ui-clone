@@ -108,7 +108,6 @@ class Central {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Row(
-              
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
               Padding(
