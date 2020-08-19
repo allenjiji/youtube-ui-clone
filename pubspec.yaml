@@ -28,6 +28,8 @@ dependencies:
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+4
   video_player: ^0.10.12
+  shared_preferences: ^0.5.8
+  share: ^0.6.4+3
 
 dev_dependencies:
   flutter_test:

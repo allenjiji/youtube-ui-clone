@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_x/material_x.dart';
 import 'package:youtubeclone/Views/channel_avatar.dart';
 import 'package:youtubeclone/Views/video_card.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Models/channel.dart';
 import 'Models/colors.dart';
 import 'Models/video.dart';
@@ -91,12 +91,11 @@ class Central {
               color1: Colors.pinkAccent,
               color2: Colors.pink[100],
             ),
-             GradientBlock(
+            GradientBlock(
               text: "Subscriptions",
               color1: Colors.blue,
               color2: Colors.red[100],
             ),
-            
           ],
         ),
       ));
@@ -107,21 +106,19 @@ class Central {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(left:5,top: 5),
+                padding: const EdgeInsets.only(left: 5, top: 5),
                 child: ChannelAvatar(channel: channel),
               ),
             ]),
             Divider(
               color: tabBarUnselectedIconsColor,
             ),
-            SuggestionsTab(),Divider(
+            SuggestionsTab(),
+            Divider(
               color: tabBarUnselectedIconsColor,
             ),
-      
           ],
         ),
       ));
@@ -144,6 +141,14 @@ class Central {
   Channel channel =
       new Channel("ABC Channel", AssetImage("assets/profilepics/5.jpg"));
 
+  List links = [
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+  ];
+
   List<Video> makeVideos() {
     List<Video> vids = [];
     for (int i = 0; i < 5; i++) {
@@ -152,7 +157,12 @@ class Central {
           120000,
           DateTime.now().subtract(new Duration(days: 400)),
           videoTitles[i],
-          channel));
+          channel,
+          links[i],
+          2,
+          5,
+          true,
+          false));
     }
     return vids;
   }
@@ -164,4 +174,15 @@ class Central {
     "Editors now use Lorem Ipsum as their default model text,",
     "There are many variations of passages of Lorem Ipsum available"
   ];
+
+storelogin()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('isloggedIn', true);
+}
+
+setvideos()async{
+  
+}
+
+
 }

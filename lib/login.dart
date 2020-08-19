@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:material_x/material_x.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtubeclone/Models/colors.dart';
 import 'package:youtubeclone/main-page.dart';
 import 'package:youtubeclone/register.dart';
 import 'authentication.dart';
 
 class Login extends StatefulWidget {
+  static const routeName = '/login';
   @override
   _LoginState createState() => _LoginState();
 }
@@ -101,8 +103,18 @@ class _LoginState extends State<Login> {
                   } else {
                     print("signed in");
                     print(res);
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool('isloggedIn', true);
                     Navigator.of(context)
                         .pushReplacementNamed(MyHomePage.routeName);
+                    bool checkValue = prefs.containsKey('likes');
+                    if(!checkValue){
+                      prefs.setInt('like', 10);
+                      prefs.setInt('dislike', 10);
+                      prefs.setBool('isdislike', false);
+                      prefs.setBool('islike', true);
+                    }
                   }
                 },
                 elavation: 10,

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtubeclone/Models/colors.dart';
 import 'package:youtubeclone/Models/textstyles.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Models/video.dart';
 
 class VideoPage extends StatefulWidget {
   static const routeName = '/video-page';
@@ -21,20 +24,43 @@ class _VideoPageState extends State<VideoPage> {
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     _controller.play();
-
+    getdetails();
     super.initState();
   }
 
   @override
   void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
+    setdetails();
     _controller.dispose();
 
     super.dispose();
   }
 
+  setdetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('like', like);
+    prefs.setInt('dislike', dislike);
+    prefs.setBool('isdislike', isdislike);
+    prefs.setBool('islike', islike);
+  }
+
+  int like;
+  int dislike;
+  bool isdislike;
+  bool islike;
+  getdetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    like = prefs.getInt('like');
+    dislike = prefs.getInt('dislike');
+    isdislike = prefs.getBool('isdislike');
+    islike = prefs.getBool('islike');
+  }
+
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final Video video = routeArgs['video'];
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -88,8 +114,178 @@ class _VideoPageState extends State<VideoPage> {
                       }
                     },
                   ),
-                  _videoInfo(),
-                  _channelInfo(),
+                  Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          video.videoTitle,
+                          style: videoTitleStyle,
+                        ),
+                        subtitle: Text(
+                          '',
+                          style: videoInfoStyle,
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.thumb_up,
+                                      color: video.isliked
+                                          ? Colors.blue
+                                          : Colors.grey[700],
+                                    ),
+                                    onTap: () {
+                                      if (!video.isdisliked) {
+                                        setState(() {
+                                          video.isliked = !video.isliked;
+                                          video.isliked
+                                              ? video.likes += 1
+                                              : video.likes -= 1;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          video.isdisliked = !video.isdisliked;
+                                          video.dislikes -= 1;
+                                          video.isliked = !video.isliked;
+                                          video.isliked
+                                              ? video.likes += 1
+                                              : video.likes -= 1;
+                                        });
+                                      }
+                                      isdislike = video.isdisliked;
+                                      islike = video.isliked;
+                                      like = video.likes;
+                                      dislike = video.dislikes;
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  video.likes.toString(),
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.thumb_down,
+                                      color: video.isdisliked
+                                          ? Colors.blue
+                                          : Colors.grey[700],
+                                    ),
+                                    onTap: () {
+                                      if (!video.isliked) {
+                                        setState(() {
+                                          video.isdisliked = !video.isdisliked;
+                                          video.isdisliked
+                                              ? video.dislikes += 1
+                                              : video.dislikes -= 1;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          video.isliked = !video.isliked;
+                                          video.likes -= 1;
+                                          video.isdisliked = !video.isdisliked;
+                                          video.isdisliked
+                                              ? video.dislikes += 1
+                                              : video.dislikes -= 1;
+                                        });
+                                      }
+                                      isdislike = video.isdisliked;
+                                      islike = video.isliked;
+                                      like = video.likes;
+                                      dislike = video.dislikes;
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  video.dislikes.toString(),
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.share,
+                                      color: false
+                                          ? Colors.blue
+                                          : Colors.grey[700],
+                                    ),
+                                    onTap: () {
+                                      Share.share(
+                                          'Check out the video from NewTube "www.flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4"');
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  "Share",
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.cloud_download,
+                                      color: false
+                                          ? Colors.blue
+                                          : Colors.grey[700],
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Download",
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.playlist_add,
+                                      color: false
+                                          ? Colors.blue
+                                          : Colors.grey[700],
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Save",
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  _channelInfo(video),
                   MoreInfo(),
                 ],
               ),
@@ -115,51 +311,16 @@ class _VideoPageState extends State<VideoPage> {
   }
 }
 
-class _PlayPauseOverlay extends StatelessWidget {
-  const _PlayPauseOverlay({Key key, this.controller}) : super(key: key);
-
-  final VideoPlayerController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AnimatedSwitcher(
-          duration: Duration(milliseconds: 50),
-          reverseDuration: Duration(milliseconds: 200),
-          child: controller.value.isPlaying
-              ? SizedBox.shrink()
-              : Container(
-                  color: Colors.black26,
-                  child: Center(
-                    child: Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 100.0,
-                    ),
-                  ),
-                ),
-        ),
-        GestureDetector(
-          onTap: () {
-            controller.value.isPlaying ? controller.pause() : controller.play();
-          },
-        ),
-      ],
-    );
-  }
-}
-
-Widget _videoInfo() {
+/* Widget _videoInfo(Video video) {
   return Column(
     children: <Widget>[
       ListTile(
         title: Text(
-          "widget.detail.title",
+          video.videoTitle,
           style: videoTitleStyle,
         ),
         subtitle: Text(
-          "1235",
+          '',
           style: videoInfoStyle,
         ),
         trailing: Icon(
@@ -172,26 +333,30 @@ Widget _videoInfo() {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            _buildButtonColumn(Icons.thumb_up, "5"),
-            _buildButtonColumn(Icons.thumb_down, "4"),
-            _buildButtonColumn(Icons.share, "Share"),
-            _buildButtonColumn(Icons.cloud_download, "Download"),
-            _buildButtonColumn(Icons.playlist_add, "Save"),
+            _buildButtonColumn(
+                Icons.thumb_up, video.likes.toString(), video.isliked),
+            _buildButtonColumn(
+                Icons.thumb_down, video.dislikes.toString(), video.isdisliked),
+            _buildButtonColumn(Icons.share, "Share", false),
+            _buildButtonColumn(Icons.cloud_download, "Download", false),
+            _buildButtonColumn(Icons.playlist_add, "Save", false),
           ],
         ),
       )
     ],
   );
-}
+} */
 
-Widget _buildButtonColumn(IconData icon, String text) {
+Widget _buildButtonColumn(IconData icon, String text, bool isis) {
   return Column(
     children: <Widget>[
       Container(
         padding: const EdgeInsets.only(bottom: 8.0),
-        child: Icon(
-          icon,
-          color: Colors.grey[700],
+        child: InkWell(
+          child: Icon(
+            icon,
+            color: isis ? Colors.blue : Colors.grey[700],
+          ),
         ),
       ),
       Text(
@@ -202,7 +367,7 @@ Widget _buildButtonColumn(IconData icon, String text) {
   );
 }
 
-Widget _channelInfo() {
+Widget _channelInfo(Video video) {
   return Container(
     decoration: BoxDecoration(
       border: Border(
@@ -215,10 +380,10 @@ Widget _channelInfo() {
         Expanded(
           child: ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage("widget.detail.channelAvatar"),
+              backgroundImage: video.channel.profilePicture,
             ),
             title: Text(
-              "widget.detail.channelTitle",
+              video.channel.channelName,
               style: videoTitleStyle,
               overflow: TextOverflow.ellipsis,
             ),

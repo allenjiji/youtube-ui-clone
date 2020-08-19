@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtubeclone/Models/textstyles.dart';
 import 'package:youtubeclone/Views/channel_avatar.dart';
 import 'package:youtubeclone/Views/suggestions_tab.dart';
@@ -14,8 +15,6 @@ import 'central.dart';
 import 'explore-page.dart';
 import 'subscription-page.dart';
 
-
-
 class MyHomePage extends StatefulWidget {
   static const routeName = '/main-page';
   @override
@@ -23,9 +22,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController( 
+    return DefaultTabController(
       length: 5,
       child: new Scaffold(
         appBar: AppBar(
@@ -55,14 +56,47 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Icon(Icons.cast),
+                      //Icon(Icons.cast),
                       Icon(Icons.video_call),
                       Icon(Icons.search),
-                      Container(
-                        height: 30,
-                        width: 30,
-                        child: CircleAvatar(
-                            backgroundImage: Central().channel.profilePicture),
+                      InkWell(
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          child: CircleAvatar(
+                              backgroundImage:
+                                  Central().channel.profilePicture),
+                        ),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: backgroundColor,
+                                  title: Text(
+                                    "LOGOUT",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontStyle: FontStyle.normal),
+                                  ),
+                                  content: Text(
+                                    "Are you sure ?",
+                                    style: videoTitleStyle,
+                                  ),
+                                  actions: [
+                                    FlatButton(
+                                        onPressed: () => Navigator.of(context)
+                                            .pushReplacementNamed('/'),
+                                        child: Text("YES")),
+                                    FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                        child: Text("NO")),
+                                  ],
+                                );
+                              });
+                        },
                       )
                     ],
                   ),
@@ -80,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         bottomNavigationBar: Container(
-          height: MediaQuery.of(context).size.height*.07,
-          padding: EdgeInsets.only(top:10),
+          height: MediaQuery.of(context).size.height * .07,
+          padding: EdgeInsets.only(top: 10),
           child: new TabBar(
             labelStyle: tabTextStyle,
             tabs: tabList,
@@ -97,9 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ///////////////////////////////////////////////////////////////
 
-
-
- 
   List<Widget> tabList = [
     Tab(
       icon: new Icon(Icons.home),

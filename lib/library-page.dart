@@ -41,7 +41,7 @@ class _LibraryState extends State<Library> {
       {
         "name": "Watch Later",
         "icon": Icon(Icons.watch_later, color: Colors.white),
-        "extra": "25 unwatched videos"
+        "extra": "0 unwatched videos"
       },
     ];
 
@@ -86,7 +86,7 @@ class _LibraryState extends State<Library> {
           ListTile(
             leading: Icon(Icons.file_download,color: Colors.white,),
             title: Text("Downloads",style: videoTitleStyle),
-            subtitle: Text("20 videos",style: videoTitleStyle),
+            subtitle: Text("0 videos",style: videoTitleStyle),
             trailing: Icon(
               Icons.check_circle,
               color: Colors.blue[700],
@@ -119,7 +119,7 @@ class _LibraryState extends State<Library> {
           ListTile(
             leading: Icon(Icons.thumb_up,color: Colors.white,),
             title: Text("Liked videos", style: videoTitleStyle),
-            subtitle: Text("248 videos", style: videoTitleStyle),
+            subtitle: Text("20 videos", style: videoTitleStyle),
           ),
           ListTile(
             leading: Icon(Icons.account_circle,color: Colors.white),

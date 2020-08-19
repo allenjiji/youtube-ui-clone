@@ -77,7 +77,8 @@ class VideoCard extends StatelessWidget {
           ],
         ),
       ),
-      onTap:()=> Navigator.of(context).pushNamed(VideoPage.routeName),
+      onTap: () => Navigator.of(context)
+          .pushNamed(VideoPage.routeName, arguments: {'video': video}),
     );
   }
 }

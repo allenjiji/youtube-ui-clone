@@ -7,13 +7,33 @@ class Video {
   DateTime uploadDate;
   String videoTitle;
   Channel channel;
+  String link;
+  int likes;
+  int dislikes;
+  bool isliked;
+  bool isdisliked;
 
-  Video(AssetImage thumbnail, int viewCount, DateTime uploadDate, String videoTitle, Channel channel) {
+  Video(
+      AssetImage thumbnail,
+      int viewCount,
+      DateTime uploadDate,
+      String videoTitle,
+      Channel channel,
+      String link,
+      int likes,
+      int dislikes,
+      bool isliked,
+      bool isdisliked) {
     this.thumbnail = thumbnail;
     this.viewCount = viewCount;
     this.uploadDate = uploadDate;
     this.videoTitle = videoTitle;
     this.channel = channel;
+    this.link = link;
+    this.likes = likes;
+    this.dislikes = dislikes;
+    this.isliked = isliked;
+    this.isdisliked = isdisliked;
   }
 
   String getViewCount() {
@@ -34,15 +54,16 @@ class Video {
 
   String compressViews(List<int> numbers, String viewString) {
     if (viewString.length == numbers[0]) {
-        viewString = viewString.substring(0, 3);
-      } else if (viewString.length == numbers[1]) {
-        viewString = viewString.substring(0, 2);
-      } else {
-        String newString = viewString.substring(0, 1);
-        viewString = newString +"." + viewString.substring(1, 2);
-      }
-      return viewString;
+      viewString = viewString.substring(0, 3);
+    } else if (viewString.length == numbers[1]) {
+      viewString = viewString.substring(0, 2);
+    } else {
+      String newString = viewString.substring(0, 1);
+      viewString = newString + "." + viewString.substring(1, 2);
+    }
+    return viewString;
   }
+
   int index;
 
   String getVideoTitle() {
@@ -67,8 +88,8 @@ class Video {
     String newTitleRow = wordList[index];
     index += 1;
     while (newTitleRow.length < 29 && index != wordList.length) {
-        newTitleRow += " " + wordList[index];
-        index += 1;
+      newTitleRow += " " + wordList[index];
+      index += 1;
     }
     if (newTitleRow.length > 29) {
       List<String> res = newTitleRow.split(" ");
@@ -92,7 +113,7 @@ class Video {
     int days = now.difference(this.uploadDate).inDays;
     double weeks = days / 7;
     double months = weeks / 4;
-    double years = days /365;
+    double years = days / 365;
 
     if (years >= 1) {
       String year = " year";
@@ -100,31 +121,31 @@ class Video {
         year = " years";
       }
       return years.toInt().toString() + year;
-    } else if (months >= 1){
+    } else if (months >= 1) {
       String month = " month";
       if (months >= 2) {
         month = " months";
       }
       return months.toInt().toString() + month;
-    } else if (weeks >= 1){
+    } else if (weeks >= 1) {
       String week = " week";
       if (weeks >= 2) {
         week = " weeks";
       }
       return weeks.toInt().toString() + week;
-    } else if (days >= 1){
+    } else if (days >= 1) {
       String day = " day";
       if (days >= 2) {
         day = " days";
       }
       return days.toInt().toString() + day;
-    } else if (hours >= 1){
+    } else if (hours >= 1) {
       String hour = " hour";
       if (hours >= 2) {
         hour = " hours";
       }
       return hours.toInt().toString() + hour;
-    } else if (minutes >= 1){
+    } else if (minutes >= 1) {
       String minute = " minute";
       if (minutes >= 2) {
         minute = " minutes";
