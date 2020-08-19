@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_x/material_x.dart';
 import 'package:youtubeclone/Models/colors.dart';
+import 'package:youtubeclone/login.dart';
 import 'authentication.dart';
 
 class Register extends StatefulWidget {
@@ -121,7 +122,7 @@ class _RegisterState extends State<Register> {
                     });
                     print("cant register in");
                   } else {
-                    Navigator.of(context).pushReplacementNamed('/');
+                    Navigator.of(context).pushReplacementNamed(Login.routeName);
                     print("registered");
                     print(res);
                   }
