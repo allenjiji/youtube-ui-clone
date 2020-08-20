@@ -22,8 +22,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -86,8 +84,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   actions: [
                                     FlatButton(
-                                        onPressed: () => Navigator.of(context)
-                                            .pushReplacementNamed('/'),
+                                        onPressed: () async {
+                                          SharedPreferences preferences =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          await preferences.clear();
+                                          Navigator.of(context)
+                                              .pushReplacementNamed('/');
+                                        },
                                         child: Text("YES")),
                                     FlatButton(
                                         onPressed: () =>
